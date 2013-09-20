@@ -1,0 +1,92 @@
+<config>
+    <tabs>
+        <dropshipper translate="label" module="wsu_dropshipper">
+            <label>Dropshipper</label>
+            <sort_order>110</sort_order>
+        </dropshipper>
+    </tabs>
+    <sections>
+        <dropshipper translate="label" module="wsu_dropshipper">
+            <label>Dropshipper Option</label>
+            <tab>dropshipper</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <send_mail translate="label comment">
+                            <label>Send Mail Option</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send_mail>
+                        <order_status translate="label">
+                            <label>Order status After which You want to send Mail</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>wsu_dropshipper/system_config_source_order_status</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_status>
+                    </fields>
+                </general>
+            </groups>
+        </dropshipper>
+        <trans_email translate="label" module="core">
+            <groups>
+                <ident_dropshipper translate="label">
+                    <label>Dropshipper Email</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>6</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <email translate="label">
+                            <label>Sender email</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_email_address</backend_model>
+                            <validate>validate-email</validate>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email>
+                        <name translate="label">
+                            <label>Sender name</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_email_sender</backend_model>
+                            <validate>validate-emailSender</validate>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name>
+                    </fields>
+                </ident_dropshipper>
+            </groups>
+        </trans_email>
+    </sections>
+</config>    

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * @category    Wsu
+ * @package     Wsu_Dropshipper
+ */
+-->
+<config>
+    <modules>
+        <Wsu_Dropshipper>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Wsu_Dropshipper>
+    </modules>
+</config>

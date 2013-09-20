@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * @category    Wsu
+ * @package     Wsu_Dropshipper
+*/
+-->
+<config>
+    <modules>
+        <Wsu_Dropshipper>
+            <version>0.0.1</version>
+        </Wsu_Dropshipper>
+    </modules>
+    <frontend>
+        <routers>
+            <wsu_dropshipper>
+                <use>standard</use>
+                <args>
+                    <module>Wsu_Dropshipper</module>
+                    <frontName>dropshipper</frontName>
+                </args>
+            </wsu_dropshipper>
+        </routers>
+        <layout>
+            <updates>
+                <wsu_dropshipper>
+                    <file>wsu-dropshipper.xml</file>
+                </wsu_dropshipper>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <wsu_dropshipper>
+                <use>admin</use>
+                <args>
+                    <module>Wsu_Dropshipper</module>
+                    <frontName>dropshipper</frontName>
+                </args>
+            </wsu_dropshipper>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <wsu_dropshipper>
+                    <file>wsu-dropshipper.xml</file>
+                </wsu_dropshipper>
+            </updates>
+        </layout>
+        
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <dropshipper>
+                                            <title>Dropshipper Option</title>
+                                        </dropshipper>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>        
+    </adminhtml>
+    <global>
+        <blocks>
+            <wsu_dropshipper>
+                <class>Wsu_Dropshipper_Block</class>
+            </wsu_dropshipper>
+        </blocks>
+        <models>
+            <wsu_dropshipper>
+                <class>Wsu_Dropshipper_Model</class>
+                <resourceModel>wsu_dropshipper_resource</resourceModel>
+            </wsu_dropshipper>
+            
+            <wsu_dropshipper_resource>
+                <class>Wsu_Dropshipper_Model_Resource</class>
+                <entities>
+                    <dropshipper>
+                        <table>wsu_dropshipper</table>
+                    </dropshipper>
+                    <order>
+                        <table>wsu_dropshipper_order</table>
+                    </order>
+                    <product>
+                        <table>wsu_dropshipper_product</table>
+                    </product>
+                    <shipping>
+                        <table>wsu_dropshipper_shipping</table>
+                    </shipping>
+                </entities>
+            </wsu_dropshipper_resource>            
+        </models>
+        <helpers>
+            <wsu_dropshipper>
+                <class>Wsu_Dropshipper_Helper</class>
+            </wsu_dropshipper>
+        </helpers>
+        <resources> 
+            <wsu_dropshipper_setup>
+                <setup>
+                    <module>Wsu_Dropshipper</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </wsu_dropshipper_setup>
+            <wsu_dropshipper_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </wsu_dropshipper_write>
+            <wsu_dropshipper_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </wsu_dropshipper_read>       
+        </resources>
+        
+        <events>
+            <checkout_submit_all_after>
+                <observers>
+                    <wsu_dropshipper_additem>
+                        <class>wsu_dropshipper/observer</class>
+                        <method>addDropshipperItem</method>
+                    </wsu_dropshipper_additem>
+                </observers>
+            </checkout_submit_all_after>
+            
+            <sales_order_save_after>
+                <observers>
+                    <wsu_dropshipper_sendmail>
+                        <class>wsu_dropshipper/observer</class>
+                        <method>sendMail</method>
+                    </wsu_dropshipper_sendmail>
+                </observers>
+            </sales_order_save_after>
+        </events>
+        
+        <template>
+           <email>
+                 <wsu_dropshipper_email_order_dropshipper_template translate="label" module="wsu_dropshipper">
+                   <label>Dropshipper Mail</label>
+                   <file>sales/dropshipper.html</file>
+                   <type>html</type>
+               </wsu_dropshipper_email_order_dropshipper_template>
+            </email>  
+        </template>
+        
+    </global>
+    
+    <default>
+         <wsu_dropshipper_email>
+            <dropshipper>
+                <enabled>1</enabled>
+                <wsu_dropshipper_template>wsu_dropshipper_email_order_dropshipper_template</wsu_dropshipper_template>
+                <identity>dropshipper</identity>
+            </dropshipper>
+          </wsu_dropshipper_email>  
+          
+          <trans_email>
+            <ident_dropshipper>
+                <email><![CDATA[test@test.com]]></email>
+                <name>dropshipper</name>
+            </ident_dropshipper>
+        </trans_email>
+        
+        <dropshipper>
+            <general>
+                <send_mail>1</send_mail>
+            </general>
+        </dropshipper>
+        
+    </default>
+</config>

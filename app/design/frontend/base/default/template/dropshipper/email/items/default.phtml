@@ -1,0 +1,59 @@
+<?php $_item = $this->getItem() ?>
+<tr>
+   <td align="left" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+        <strong style="font-size:11px;"><?php echo $this->htmlEscape($_item->getName()) ?></strong>
+    </td>   
+    <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+        <strong style="font-size:11px;"><?php echo $this->htmlEscape($_item->getSku()) ?></strong>
+    </td>
+    <td align="center" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;"><?php echo $_item->getQtyOrdered()*1 ?></td>
+    
+    <td align="right" valign="top" style="font-size:11px; padding:3px 9px; border-bottom:1px dotted #CCCCCC;">
+    <?php
+    
+        $options_qty = $_item->getProductOptions();
+        
+        if($_item->getParentItemId())
+         {
+           $parentItemId = $_item->getParentItemId();
+           $parentItem = Mage::getModel('sales/order_item')->load($parentItemId);
+           $options = $parentItem->getProductOptions();
+           
+           $product_options = $options['attributes_info'];
+           
+           foreach($product_options as $_option)
+           {
+                $product_options_str .= $_option['label']."=>".$_option['value']."<br />";
+           }
+           
+           if($options['options'])
+           {
+                $custom_options = $options['options'];
+                foreach($custom_options as $_customoption)
+                {
+                    $product_options_str .= $_customoption['label']."=>".$_customoption['value']."<br />";
+                }
+           }
+           
+         }
+         else
+         {
+            $options = $_item->getProductOptions();
+            $custom_options = $options['options'];
+            if($custom_options)
+            {
+                foreach($custom_options as $_customoption)
+                {
+                    $product_options_str .= $_customoption['label']."=>".$_customoption['value']."<br />";
+                }
+            }
+            else
+            {
+                $product_options_str = '';
+            }
+            
+         }
+        echo $product_options_str;
+    ?>
+    </td>
+</tr>

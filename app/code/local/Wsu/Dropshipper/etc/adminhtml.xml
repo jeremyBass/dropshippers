@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * @category    Wsu
+ * @package     Wsu_Dropshipper
+*/
+-->
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <dropshipper translate="title" module="wsu_dropshipper">
+                    <title>Dropshipper</title>
+                    <action>dropshipper/adminhtml_dropshipper/index</action>
+                    <sort_order>180</sort_order>
+                </dropshipper>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <dropshipper translate="title" module="wsu_dropshipper">
+                                <title>Dropshipper</title>
+                            </dropshipper>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * @category    Wsu
+ * @package     Wsu_Dropshipper
+*/
+-->
+<layout>
+    <wsu_dropshipper_adminhtml_dropshipper_index>
+        <reference name="content">
+            <block type="wsu_dropshipper/adminhtml_dropshipper" name="dropshipper" />
+        </reference>
+    </wsu_dropshipper_adminhtml_dropshipper_index>
+    
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">
+            <block type="wsu_dropshipper/adminhtml_sales_order_view_tab_dropshipper" name="tab_dropshipper"></block>
+                <action method="addTab"><name>dropshipper</name><block>tab_dropshipper</block></action>        
+        </reference>
+    </adminhtml_sales_order_view>
+   
+</layout>

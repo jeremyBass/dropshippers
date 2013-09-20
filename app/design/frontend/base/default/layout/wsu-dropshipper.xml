@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">   
+
+    <wsu_dropshipper_email_items>
+        <block type="sales/order_email_items" name="items" template="dropshipper/email/items.phtml">
+            <action method="addItemRender"><type>default</type><block>sales/order_email_items_order_default</block><template>dropshipper/email/items/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>sales/order_email_items_order_grouped</block><template>dropshipper/email/items/default.phtml</template></action>            
+        </block>
+    </wsu_dropshipper_email_items>
+  
+</layout>
