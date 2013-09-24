@@ -55,6 +55,17 @@ class Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input extends 
                 $html .= 'class="' . $class . '"/>';
                 
                 break;
+            case 'sku':
+                $class = $this->getColumn()->getInlineCss(). ' input-text';
+                $val = $row->getData($this->getColumn()->getIndex());
+                
+                $html = '<input type="text" ';
+                $html .= 'id="' . $this->getColumn()->getId() . '-' . $row->getData('id').'" ';
+                $html .= 'name="update_data[' . $this->getColumn()->getId() . ']['.$productId.']" ';
+                $html .= 'value="' . $val . '"';
+                $html .= 'style="width:140px" class="' . $class . '"/>';
+                
+                break;
         }
         
         return $html;

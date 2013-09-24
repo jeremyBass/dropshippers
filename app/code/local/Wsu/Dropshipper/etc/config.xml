@@ -30,6 +30,16 @@
                 </wsu_dropshipper>
             </updates>
         </layout>
+		<events>
+			<checkout_cart_product_add_after>
+				<observers>
+					<dropshipper_price>
+						<class>dropshipper/observer</class>
+						<method>modifyPrice</method>
+					</dropshipper_price>
+				</observers>
+			</checkout_cart_product_add_after>
+		</events>
     </frontend>
     <admin>
         <routers>

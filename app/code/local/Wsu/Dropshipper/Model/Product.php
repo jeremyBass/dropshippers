@@ -8,7 +8,7 @@
 class Wsu_Dropshipper_Model_Product extends Mage_Core_Model_Abstract
 {
     protected $_allowAttributes = array(
-        'price','cost','qty'
+        'price','cost','qty','sku'
     );
     
     public function _construct()
@@ -17,14 +17,16 @@ class Wsu_Dropshipper_Model_Product extends Mage_Core_Model_Abstract
         $this->_init('wsu_dropshipper/product');
     }
     
-    public function saveProductRelations($dropshipper)
+    public function saveProductRelations($dropshipper_Id,$newProductArray)
     {
-        $this->getResource()->saveProductRelations($dropshipper);
+        $this->getResource()->saveProductRelations($dropshipper_Id,$newProductArray);
     }
     
-    public function updateProducts($object)
-    {       
+    public function updateProducts($dropshipper_Id,$object)
+    {    
+	
         $productData = $object['update_data']; 
+		$ProductInstance = Mage::getModel('wsu_dropshipper/product');
         
         $newProductArray = array();
         foreach($productData as $key=>$value)
@@ -34,7 +36,10 @@ class Wsu_Dropshipper_Model_Product extends Mage_Core_Model_Abstract
                 $newProductArray[$id][$key] = $_val;
             }            
         }
-        
+		
+		$ProductInstance->saveProductRelations($dropshipper_Id,$newProductArray);
+		
+        //print_r($newProductArray);die(); 
         foreach($newProductArray as $productId=>$val)
         {
 			/* no no no not today

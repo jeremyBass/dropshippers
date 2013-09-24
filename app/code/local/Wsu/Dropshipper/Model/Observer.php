@@ -12,7 +12,37 @@ class Wsu_Dropshipper_Model_Observer extends Mage_Adminhtml_Block_Widget_Grid_Co
     const XML_PATH_EMAIL_DROPSHIPPER_SENDER_NAME    = 'trans_email/ident_dropshipper/name';
     const DROPSHIPPER_EMAIL_OPTION         = 'dropshipper/general/send_mail';
     const DROPSHIPPER_ORDER_STATUS         = 'dropshipper/general/order_status';
-    
+
+	public function modifyPrice(Varien_Event_Observer $obs) {
+		// Get the quote item
+		$item = $obs->getQuoteItem();
+		// Ensure we have the parent item, if it has one
+		$item = ( $item->getParentItem() ? $item->getParentItem() : $item );
+		// Load the custom price
+		$price = $this->_getPriceByItem($item);
+		if($price>0){
+			// Set the custom price
+			$item->setCustomPrice($price);
+			$item->setOriginalCustomPrice($price);
+			// Enable super mode on the product.
+			$item->getProduct()->setIsSuperMode(true);
+		}
+	}
+	protected function _getPriceByItem(Mage_Sales_Model_Quote_Item $item) {
+		$id = $item->getProductId();      
+		$_product  = Mage::getModel('catalog/product')->load($id);        
+		$dropshipper = Mage::getModel('wsu_dropshipper/product')->getDropshipper($_product); // should be a list right?
+		//then loop of the dropshippers 
+		//while logging the lowest cost/price or what other logic 
+		$price=0;
+		if($_product ->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_SIMPLE && $dropshipper->getId()){
+			 $price = $item->getPrice();
+		}           
+		//use $item to determine your custom price.
+		
+		return $price;
+	}
+	    
     public function addDropshipperItem(Varien_Event_Observer $observer)
     {
         if(Mage::helper("wsu_dropshipper")->isActiveDropshipper()){

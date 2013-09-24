@@ -126,11 +126,16 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
             'index'     => 'name'
         ));
 
-        $this->addColumn('sku', array(
-            'header'    => Mage::helper('wsu_dropshipper')->__('SKU'),
-            'width'     => '80',
-            'index'     => 'sku'
+		$this->addColumn('sku', array(
+          'header'    => Mage::helper('wsu_dropshipper')->__('SKU'),
+          'renderer'  => 'Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input',
+		  'sortable'  => true,
+          'width'     => '140',
+          'index'     => 'sku',
         ));
+		
+		
+		/*if it's all a simple product then no need for this
         $this->addColumn('type',
             array(
                 'header'=> Mage::helper('wsu_dropshipper')->__('Type'),
@@ -138,8 +143,8 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
                 'index' => 'type_id',
                 'type'  => 'options',
                 'options' => Mage::getSingleton('catalog/product_type')->getOptionArray()
-        ));
-        
+        ));*/
+        /*Not really the place for this
         $this->addColumn('visibility',
             array(
                 'header'=> Mage::helper('catalog')->__('Visibility'),
@@ -147,7 +152,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
                 'index' => 'visibility',
                 'type'  => 'options',
                 'options' => Mage::getModel('catalog/product_visibility')->getOptionArray(),
-        ));
+        ));*/
         
         $this->addColumn('price', array(
             'header'    => Mage::helper('wsu_dropshipper')->__('Price'),

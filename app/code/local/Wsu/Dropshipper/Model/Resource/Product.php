@@ -14,40 +14,30 @@ class Wsu_Dropshipper_Model_Resource_Product extends Mage_Core_Model_Resource_Db
         $this->_init('wsu_dropshipper/product', 'dshipper_product_id');
     }
     
-    public function saveProductRelations($dropshipper)
-    {               
+    public function saveProductRelations($dropshipper_id,$products) { 
+
         $productTable = $this->getTable('wsu_dropshipper/product');
         $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
-        $products = array_keys($dropshipper->getProducts());     
-        $dropshipper_Id     = $dropshipper->getDshipperId();
-        
-        $select = $readAdapter->select()
-                        ->from(
-                            array('product_table'=>$productTable),
-                            array('dshipper_product_id')
-                        )
-                        ->where('product_table.dshipper_id = ?',$dropshipper_Id);
-        if(count($products))
-            $select->where('product_table.product_id NOT IN(?)',$products);
-        
-        $oldProduct =  $readAdapter->fetchCol($select);
-        if(count($oldProduct)){
-            $writeAdapter->delete(
+        //clear all te old entries.. not the best but come back to 
+		//@todo
+		$writeAdapter->delete(
                 $this->getTable('wsu_dropshipper/product'),
                 array(
-                    'dshipper_product_id IN (?)' => $oldProduct,
+                    'dshipper_id = ?' => $dropshipper_id,
                 )
-            );
-        }
-            
-        foreach($products as $key=>$productId){
+            ); 
+ 
+        foreach($products as $key=>$product){
             $data = array();
-            $data['product_id']     = $productId;
-            $data['dshipper_id'] = $dropshipper_Id;
-            $writeAdapter->insertOnDuplicate($productTable,$data);
-        }
-                              
+            $data['product_id']     = $key;
+            $data['dshipper_id'] = $dropshipper_id;
+			$data['cost'] = $products[$key]['cost'];
+			$data['price'] = $products[$key]['price'];
+			$data['qty'] = $products[$key]['qty'];
+			$data['sku'] = $products[$key]['sku'];
+            $writeAdapter->insert($productTable,$data);
+        }                   
         return true;
     }
     

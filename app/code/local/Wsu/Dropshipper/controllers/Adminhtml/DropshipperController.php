@@ -68,15 +68,18 @@ class Wsu_Dropshipper_Adminhtml_DropshipperController extends Mage_Adminhtml_Con
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
+
             $dropshipper_products = $this->_decodeInput($data['products']);
             $data['products'] = $dropshipper_products;
             
-            if($data['update_data'])
-                Mage::getModel('wsu_dropshipper/product')->updateProducts($data);
+
             
             $model = Mage::getModel('wsu_dropshipper/dropshipper');    
             $model->setData($data)
                 ->setId($this->getRequest()->getParam('id'));
+				
+            Mage::getModel('wsu_dropshipper/product')->updateProducts($model->getId(),$data);
+				
             try {
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('wsu_dropshipper')->__('Dropshipper was successfully saved'));

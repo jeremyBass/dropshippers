@@ -17,8 +17,10 @@ class Wsu_Dropshipper_Model_Dropshipper extends Mage_Core_Model_Abstract
     
     protected function _afterSave()
     {
-        if($this->getProducts())
-            $this->getProductInstance()->saveProductRelations($this);
+		   
+        //if($this->getProducts())
+		//don't really need to check this do we?
+        $this->getProductInstance()->saveProductRelations($this);
             
         return parent::_afterSave();
     }

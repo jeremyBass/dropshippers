@@ -74,14 +74,14 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tabs extends Mage_Adminht
     if(Mage::registry('dropshipper_data')->getDshipper_id()){ 
         $dshipper_id = Mage::registry('dropshipper_data')->getDshipper_id();
         $dropshipper_product = Mage::getModel('catalog/product')->getCollection();
-        $dropshipper_product ->addAttributeToFilter('visibility',array('neq'=>1));
+        //$dropshipper_product ->addAttributeToFilter('visibility',array('neq'=>1));
          
-         
+       /*  
         $dropshipper_product->getSelect()
                   ->join(
                       array('dshipproduct'=> $dropshipper_product->getTable('wsu_dropshipper/product')),
                       'e.entity_id = dshipproduct.product_id AND dshipproduct.dshipper_id = '.$dshipper_id
-                  );
+                  );*/
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($dropshipper_product);
         }else{
             $dropshipper_product = null;

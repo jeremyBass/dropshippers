@@ -34,15 +34,14 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Shipping extends Mage
   protected function _prepareForm(){
       $form = new Varien_Data_Form();
       $this->setForm($form);
-      $fieldset = $form->addFieldset('dropshipper_form', array('legend'=>Mage::helper('wsu_dropshipper')->__('Dropshipper information')));
+      $fieldset = $form->addFieldset('dropshipper_form', array('legend'=>Mage::helper('wsu_dropshipper')->__('Preferred Shipping')));
      
       $fieldset->addField('name', 'text', array(
-          'label'     => Mage::helper('wsu_dropshipper')->__('Supplier Name'),
+          'label'     => Mage::helper('wsu_dropshipper')->__('Supplier Shipping display name'),
           'class'     => 'required-entry',
           'required'  => true,
           'name'     => 'supplier_name'  
       ));
-      
       $fieldset->addField('status', 'select', array(
           'label'     => Mage::helper('wsu_dropshipper')->__('Choose Shipping method'),
           'name'      => 'shipping_id',
