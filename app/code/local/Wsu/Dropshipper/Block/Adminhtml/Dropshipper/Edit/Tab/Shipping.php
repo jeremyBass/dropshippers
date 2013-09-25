@@ -5,8 +5,7 @@
  * @category    Wsu
  * @package     Wsu_Dropshipper
 */
-class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Shipping extends Mage_Adminhtml_Block_Widget_Form
-{
+class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Shipping extends Mage_Adminhtml_Block_Widget_Form {
    public function getAllShippingMethods(){
 		$methods = Mage::getSingleton('shipping/config')->getActiveCarriers();
 	

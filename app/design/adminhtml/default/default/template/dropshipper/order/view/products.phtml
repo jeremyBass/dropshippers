@@ -65,8 +65,7 @@
 </form>
 
 <script type="text/javascript" language="javascript">
-    function sendMail(action)
-    {
+    function sendMail(action){
         $('drop_order_form').action = action;
         $('drop_order_form').submit();
     }
@@ -76,6 +75,6 @@
             someNode = $('sales_order_view_tabs_dropshipper');
             sales_order_view_tabsJsTabs.showTabContent(someNode);    
         },100);    
-        });
+	});
     <?php endif; ?>
 </script>
