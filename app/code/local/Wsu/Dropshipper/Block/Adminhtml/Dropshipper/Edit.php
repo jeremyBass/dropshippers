@@ -30,6 +30,30 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit extends Mage_Adminhtml_Bl
         	function saveAndContinueEdit(){
                 editForm.submit($('edit_form').action+'back/edit/');
             }
+			function add_item(){
+				(function($){
+					if($('#dialog-form').length<=0) $('body').append('<div id=\"allProductGrid\">hello</div>');
+					$('#allProductGrid').dialog({
+						autoOpen: true,
+						height: 300,
+						width: 350,
+						modal: true,
+						drag:false,
+						buttons: {
+							'Create an account': function() {
+								$( this ).dialog( 'close' );
+							},
+							Cancel: function() {
+								$( this ).dialog( 'close' );
+
+							}
+						},
+						close: function() {
+							$( this ).dialog( 'destroy' );
+						}
+					});
+				})(jQuery);
+			}
 			(function($){
 				$('button[title=\"Add Item to List\"]').hide();	
 				$('.tab-item-link').on('click',function(){
@@ -38,10 +62,8 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit extends Mage_Adminhtml_Bl
 					}else{
 						$('button[title=\"Add Item to List\"]').hide();	
 					}
-				});
+				});				
 			})(jQuery);
-			
-			
         ";
     }
     

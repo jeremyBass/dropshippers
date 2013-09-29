@@ -20,5 +20,23 @@
                 <action method="addTab"><name>dropshipper</name><block>tab_dropshipper</block></action>        
         </reference>
     </adminhtml_sales_order_view>
-   
+	<default>
+        <!--<reference name="head">
+            <action method="addItem" ifconfig="wsu_launcher/general/enable">
+                <type>js</type><name>wsulauncher/wsulauncher.js</name>
+            </action>
+            <action method="addItem" ifconfig="wsu_launcher/general/enable">
+                <type>js</type><name>wsulauncher/string.score.js</name>
+            </action>
+            <action method="addItem" ifconfig="wsu_launcher/general/enable">
+                <type>js_css</type><name>wsulauncher/wsulauncher.css</name>
+            </action>
+            <action method="addItem" ifconfig="wsu_launcher/general/enable">
+                <type>skin_css</type><name>wsulauncher.css</name>
+            </action>
+        </reference>-->
+        <reference name="before_body_end">
+            <block type="wsu_dropshipper/adminhtml_dropshipper" name="dropshipperAllProducts" template="wsu/dropshipperAllProducts.phtml" />
+        </reference>
+    </default>
 </layout>
