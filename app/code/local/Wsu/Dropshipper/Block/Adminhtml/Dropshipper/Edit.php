@@ -18,11 +18,30 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit extends Mage_Adminhtml_Bl
             'onclick' => 'saveAndContinueEdit()',
             'class' => 'save'
         ), -100);
+
+
+        $this->_addButton('add_item', array(
+            'label' => Mage::helper('adminhtml')->__('Add Item to List'),
+            'onclick' => 'add_item()',
+            'class' => 'save'
+        ), -100);
         
         $this->_formScripts[] = "
-        function saveAndContinueEdit(){
+        	function saveAndContinueEdit(){
                 editForm.submit($('edit_form').action+'back/edit/');
             }
+			(function($){
+				$('button[title=\"Add Item to List\"]').hide();	
+				$('.tab-item-link').on('click',function(){
+					if($(this).is($('#dropshipper_tabs_products'))){
+						$('button[title=\"Add Item to List\"]').show();
+					}else{
+						$('button[title=\"Add Item to List\"]').hide();	
+					}
+				});
+			})(jQuery);
+			
+			
         ";
     }
     

@@ -22,14 +22,16 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
         $this->setId('dropshipper_products');
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
-        if ($this->getDropshipper()->getId()) {
-            $this->setDefaultFilter(array(
-                'in_products' => 1
-            ));
-        }
-        if ($this->isReadonly()) {
-            $this->setFilterVisibility(false);
-        }
+		$this->setSaveParametersInSession(true);
+
+		if ($this->getDropshipper()->getId()) {
+			$this->setDefaultFilter(array(
+				'in_products' => 1
+			));
+		}
+		if ($this->isReadonly()) {
+			$this->setFilterVisibility(false);
+		}
     }
     
     public function getDropshipper() {
