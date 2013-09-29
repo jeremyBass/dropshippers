@@ -94,15 +94,6 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
         return false;
     }
     protected function _prepareColumns() {
-        
-        $this->addColumn('in_products', array(
-            'header_css_class' => 'a-center',
-            'type' => 'checkbox',
-            'name' => 'in_products',
-            'values' => $this->_getSelectedProducts(),
-            'align' => 'center',
-            'index' => 'entity_id'
-        ));
         $this->addColumn('entity_id', array(
             'header' => Mage::helper('wsu_dropshipper')->__('ID'),
             'sortable' => true,
@@ -122,7 +113,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
             'width' => '140',
             'index' => 'sku'
         ));
-        
+
         
         /*if it's all a simple product then no need for this
         $this->addColumn('type',
@@ -167,7 +158,29 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
             'width' => '1',
             'index' => 'qty'
         ));
-        
+		$this->addColumn('action',
+            array(
+            'header'    =>  Mage::helper('wsu_dropshipper')->__('Action'),
+			'header_css_class' => 'a-center',
+			'align' => 'center',
+            'width'     => '100',
+            'type'      => 'action',
+            'getter'    => 'getId',
+            'actions'   => array(
+                    array(
+                            'caption'    => Mage::helper('wsu_dropshipper')->__('Remove'),
+                            'url'       => array(
+								'base'=> '*/*/remove_item',
+								'params'=>array('id'=>Mage::registry('dropshipper_data')->getDshipper_id())
+							),
+                            'field'     => 'entity_id'
+                    )
+            ),
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'products',
+            'is_system' => true,
+    	));
         return parent::_prepareColumns();
     }
     
@@ -181,7 +194,6 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
         $products = $this->getProductsSelected();
         return $products;
     }
-    
     protected function getProductsSelected() {
         
         if (Mage::registry('dropshipper_data')->getDshipper_id()) {
@@ -202,6 +214,43 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
         return $products;
     }
     
+	
+	
+	
+	/* functions to fill out */
+	
+	//get the product with its
+	//dropshipping values
+	protected function getDropshippingProduct($product_id=0,$dropshipping_id=0){
+	//return the product object with the new values 	
+	}
+	
+	//let this be call by id
+	protected function getProductAttrVal($product_id=0,$attr=null){
+	
+		//return the value	
+	}
+	
+	
+	//get by id or sku
+	protected function getProductObject($product_id){
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     
     
 }

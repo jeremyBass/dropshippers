@@ -28,7 +28,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tabs extends Mage_Adminht
         $blocks = $this->getOutputBlock();
         $this->addTab('products', array(
             'label' => Mage::helper('wsu_dropshipper')->__('Products'),
-            'content' => $this->_outputBlocks($blocks['gridBlock'], $blocks['serializerBlock'])
+            'content' => $this->_outputBlocks($blocks['usedgridBlock'],$blocks['serializerBlock'])
         ));
         
         $this->addTab('shipping', array(
@@ -61,29 +61,57 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tabs extends Mage_Adminht
     }
     
     protected function getOutputBlock() {
-        if (Mage::registry('dropshipper_data')->getDshipper_id()) {
-            $dshipper_id         = Mage::registry('dropshipper_data')->getDshipper_id();
-            $dropshipper_product = Mage::getModel('catalog/product')->getCollection();
-            //$dropshipper_product ->addAttributeToFilter('visibility',array('neq'=>1));
-            
-            /*  
-            $dropshipper_product->getSelect()
+		$used_product = null;
+		$unused_product = null;
+		
+		$dshipper_id = Mage::registry('dropshipper_data')->getDshipper_id();
+		
+        if ($dshipper_id) {
+           
+            $used_product=null;
+			$unused_product=null;
+			
+			$_products = Mage::getModel('catalog/product')->getCollection();
+			$used_product=$_products;
+			
+            $used_product->addAttributeToSort('name', 'ASC')
+			->getSelect()
+			->distinct()
             ->join(
-            array('dshipproduct'=> $dropshipper_product->getTable('wsu_dropshipper/product')),
-            'e.entity_id = dshipproduct.product_id AND dshipproduct.dshipper_id = '.$dshipper_id
+				array('dsp'=> $_products->getTable('wsu_dropshipper/product')),
+				'e.entity_id = dsp.product_id'
+            )->where('dsp.dshipper_id != ?', $dshipper_id)
+			->group('e.entity_id');
+			$used_product->getSelect();
+			//die();
+			//var_dump($used_product);die();
+			
+            //Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($used_product);
+			/*$_products = Mage::getModel('catalog/product')->getCollection();
+			$unused_product=$_products;
+            $unused_product->getSelect()
+				->join(
+					array('dshipproduct'=> $_products->getTable('wsu_dropshipper/product')),
+					'e.entity_id = dshipproduct.product_id AND dshipproduct.dshipper_id = '.$dshipper_id
             );*/
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($dropshipper_product);
-        } else {
-            $dropshipper_product = null;
+            //Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($unused_product);
+
         }
-        
-        $gridBlock       = $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_product')->setGridUrl($this->getUrl('*/*/productGrid', array(
+
+        //$unusedgridBlock = $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_product')
+		//	->setGridUrl($this->getUrl('*/*/unusedproductGrid', array(
+        //    '_current' => true
+        //)));
+        $usedgridBlock       = $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_product')
+			->setGridUrl($this->getUrl('*/*/productGrid', array(
             '_current' => true
         )));
+		//var_dump($usedgridBlock);die();
         // holds the selected rows ids    
-        $serializerBlock = $this->_createSerializerBlock('products', $gridBlock, $dropshipper_product);
+        $serializerBlock = $this->_createSerializerBlock('products', $usedgridBlock, $used_product->getSelect());
         return array(
-            'gridBlock' => $gridBlock,
+            'usedgridBlock' => $usedgridBlock,
+			//'unusedgridBlock' => $unusedgridBlock,
             'serializerBlock' => $serializerBlock
         );
     }

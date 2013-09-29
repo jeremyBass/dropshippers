@@ -36,7 +36,11 @@ class Wsu_Dropshipper_Adminhtml_DropshipperController extends Mage_Adminhtml_Con
             $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Dropshipper Item Manager'), Mage::helper('adminhtml')->__('Dropshipper Item Manager'));
             $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Dropshipper Item News'), Mage::helper('adminhtml')->__('Dropshipper Item News'));
             $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-            $this->_addContent($this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit'))->_addLeft($this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tabs'));
+            $this->_addContent(
+					$this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit')
+				)->_addLeft(
+					 $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tabs')
+				);
             $this->renderLayout();
         } else {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('wsu_dropshipper')->__('Item does not exist'));
@@ -112,10 +116,56 @@ class Wsu_Dropshipper_Adminhtml_DropshipperController extends Mage_Adminhtml_Con
         }
         return $return;
     }
-    
-    
-    
-    
+
+	public function remove_itemAction(){
+		$product_id = $this->getRequest()->getParam('entity_id');
+		$dropshipper_id = $this->getRequest()->getParam('id');
+		$result=false;
+		if ( $product_id > 0) {
+			try {
+				$result = Mage::getModel('wsu_dropshipper/product')->reomove_item($product_id, $dropshipper_id);
+			}catch (Exception $e) {
+				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+			}
+		}
+		if($result){	
+			Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Item was successfully deleted'));
+			$this->_redirect('*/*/edit', array( 'id' => $dropshipper_id ));
+		}else{
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('This product was never here.  ERROR'));
+			$this->_redirect('*/*/edit', array( 'id' => $dropshipper_id ));
+		}
+    }
+
+	public function add_itemAction(){
+		$product_id = $this->getRequest()->getParam('entity_id');
+		$dropshipper_id = $this->getRequest()->getParam('id');
+		$result=false;
+		if ( $product_id > 0) {
+			try {
+				$result = Mage::getModel('wsu_dropshipper/product')->add_item($product_id, $dropshipper_id);
+			}catch (Exception $e) {
+				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+			}
+		}
+		if($result){	
+			Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Item was successfully deleted'));
+			$this->_redirect('*/*/edit', array( 'id' => $dropshipper_id ));
+		}else{
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('This product was never here.  ERROR'));
+			$this->_redirect('*/*/edit', array( 'id' => $dropshipper_id ));
+		}
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     
     public function deleteAction() {
         if ($this->getRequest()->getParam('id') > 0) {
@@ -251,7 +301,10 @@ class Wsu_Dropshipper_Adminhtml_DropshipperController extends Mage_Adminhtml_Con
         $this->_initDropshipper();
         $this->getResponse()->setBody($this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_product', 'dropshipper.product.grid')->toHtml());
     }
-    
+    public function unusedproductGridAction() {
+        $this->_initDropshipper();
+        $this->getResponse()->setBody($this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_product', 'dropshipper.product.grid')->toHtml());
+    }
     protected function _decodeInput($encoded) {
         $data = array();
         parse_str($encoded, $data);

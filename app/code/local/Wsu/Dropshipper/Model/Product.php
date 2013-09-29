@@ -17,6 +17,13 @@ class Wsu_Dropshipper_Model_Product extends Mage_Core_Model_Abstract {
         $this->getResource()->saveProductRelations($dropshipper_Id, $newProductArray);
     }
     
+	public function reomove_item($product_id, $dropshipper_id){		
+		return $this->getResource()->reomoving_item($product_id, $dropshipper_id);
+	}
+	public function add_item($product_id, $dropshipper_id){		
+		return $this->getResource()->adding_item($product_id, $dropshipper_id);
+	}	
+	
     public function updateProducts($dropshipper_Id, $object) {
         
         $productData     = $object['update_data'];
@@ -28,7 +35,11 @@ class Wsu_Dropshipper_Model_Product extends Mage_Core_Model_Abstract {
                 $newProductArray[$id][$key] = $_val;
             }
         }
-        
+		var_dump($object);
+        print("<hr/><br/><hr/>");
+		var_dump($newProductArray);
+		
+		die();exit();
         $ProductInstance->saveProductRelations($dropshipper_Id, $newProductArray);
         
         //print_r($newProductArray);die(); 
