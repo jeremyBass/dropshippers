@@ -29,8 +29,8 @@ class Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input extends 
                 
                 $html = '<input type="text" ';
                 $html .= 'name="update_data[' . $colId . '][' . $productId . ']" ';
-                $html .= 'value="' . $val . '"';
-                $html .= 'maxlength="10"';
+                $html .= 'value="' . $val . '" ';
+                $html .= 'maxlength="10" ';
                 $html .= 'class="' . $class . '"/>';
                 
                 break;
@@ -40,8 +40,8 @@ class Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input extends 
                 
                 $html = '<input type="text" ';
                 $html .= 'name="update_data[' . $colId . '][' . $productId . ']" ';
-                $html .= 'value="' . $val . '"';
-                $html .= 'maxlength="10"';
+                $html .= 'value="' . $val . '" ';
+                $html .= 'maxlength="10" ';
                 $html .= 'class="' . $class . '"/>';
                 
                 break;
@@ -54,7 +54,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input extends 
                 $html = '<input type="text" ';
                 $html .= 'id="' . $colId . '-' . $row->getData('id') . '" ';
                 $html .= 'name="update_data[' . $this->getColumn()->getId() . '][' . $productId . ']" ';
-                $html .= 'value="' . $val . '"';
+                $html .= 'value="' . $val . '" ';
                 $html .= 'class="' . $class . '"/>';
                 
                 break;
@@ -65,7 +65,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input extends 
                 $html = '<input type="text" ';
                 $html .= 'id="' . $colId . '-' . $row->getData('id') . '" ';
                 $html .= 'name="update_data[' . $colId . '][' . $productId . ']" ';
-                $html .= 'value="' . $val . '"';
+                $html .= 'value="' . $val . '" ';
                 $html .= 'style="width:140px" class="' . $class . '"/>';
                 
                 break;

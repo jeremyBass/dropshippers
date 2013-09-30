@@ -25,6 +25,13 @@ class Wsu_Dropshipper_Adminhtml_DropshipperController extends Mage_Adminhtml_Con
     public function indexAction() {
         $this->_initAction()->renderLayout();
     }
+	
+    public function listAction() {
+        $this->_initDropshipper();
+		$this->renderLayout();
+    }
+	
+	
     public function editAction() {
         
         $this->_initDropshipper();
