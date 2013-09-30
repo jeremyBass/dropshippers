@@ -36,6 +36,10 @@ $table = $installer->getConnection()
 			'unsigned'  => true,
 			'nullable'  => false,
         ), 'Contact Name')
+		
+		//->addColumn('ds_icon',
+		
+		
 		->addColumn('address', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
 			'unsigned'  => true,
 			'nullable'  => false,

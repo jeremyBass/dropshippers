@@ -21,7 +21,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Form extends Mage_Adm
             'name' => 'supplier_name'
         ));
         
-        $fieldset->addField('accInfo', 'label', array(
+        $fieldset->addField('label', 'label', array(
             'value' => Mage::helper('wsu_dropshipper')->__('Account information')
         ));
         $fieldset->addField('email', 'text', array(
@@ -33,25 +33,28 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Form extends Mage_Adm
         
         $fieldset->addField('contact_email', 'text', array(
             'label' => Mage::helper('wsu_dropshipper')->__('Contact Email'),
-            'class' => 'required-entry',
-            'required' => true,
+            //'class' => 'required-entry',
+            //'required' => true,
             'name' => 'contact_email'
         ));
         $fieldset->addField('contact_name', 'text', array(
             'label' => Mage::helper('wsu_dropshipper')->__('Contact Name'),
-            'class' => 'required-entry',
-            'required' => true,
+            //'class' => 'required-entry',
+            //'required' => true,
             'name' => 'contact_name'
         ));
-        
+
         $fieldset->addField('account_id', 'text', array(
             'label' => Mage::helper('wsu_dropshipper')->__('Account ID'),
-            'class' => 'required-entry',
-            'required' => true,
+            'class' => '',
+            //'required' => true,
             'name' => 'account_id'
         ));
-        
-        
+        /* at a later point
+		$fieldset->addField('ds_icon', 'image', array(
+			'label' => Mage::helper('wsu_dropshipper')->__('Dropshipper Icon'),
+			'value'     => 'http://wsu.edu/logo.png',
+        ));*/
         $fieldset->addField('contactInfo', 'label', array(
             'value' => Mage::helper('wsu_dropshipper')->__('Contact Address')
         ));

@@ -256,6 +256,4 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Allprolist_Tab_Product extends
 	protected function getProductObject($product_id){
 		
 	}
-	
-
 }
