@@ -11,7 +11,7 @@
  * @category    Wsu
  * @package     Wsu_Dropshipper
  */
-class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid {
+class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Allprolist_Tab_Product extends Mage_Adminhtml_Block_Widget_Grid {
     protected function _getStore() {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
         return Mage::app()->getStore($storeId);
@@ -64,27 +64,18 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
     protected function _prepareCollection() {
         $store      = $this->_getStore();
         $collection = Mage::getModel('catalog/product')
-						->getCollection()
-						->addAttributeToSelect('name')
-						//->addAttributeToSelect('sku')
-						//->addAttributeToSelect('price')
-						//->addAttributeToSelect('cost')
+						->getCollection()->addAttributeToSelect('name')
+						->addAttributeToSelect('sku')
+						->addAttributeToSelect('price')
+						->addAttributeToSelect('cost')
 						->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
 						->addStoreFilter($this->getRequest()->getParam('store'));
-        $dshipper_id = Mage::registry('dropshipper_data')->getDshipper_id();
-
+        
 		
-		
-		/*$collection->getSelect()->join(array(
-			'dsp' => 'wsu_dropshipper_product'//$products->getTable('wsu_dropshipper/product')
-		), 'e.entity_id = dsp.product_id AND dsp.dshipper_id = ' . $dshipper_id);
-	*/
-		
-		
-		/* this should be done if this is a new item.  Move this out
+		/* this should be done if this is a new item.  Move this out */
         if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
             $collection->joinField('qty', 'cataloginventory/stock_item', 'qty', 'product_id=entity_id', '{{table}}.stock_id=1', 'left');
-        } */
+        }
         /*we shouldn't care if it's visiable or not.
         $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $store->getId());
         */
@@ -95,17 +86,9 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
 		if (empty($productIds)) {
 			$productIds = array( 0 );
 		}
-		$collection->addFieldToFilter('entity_id', array( 'in' => $productIds ));
+		$collection->addFieldToFilter('entity_id', array( 'nin' => $productIds ));
 		
-		//$collection->joinTable('wsu_dropshipper/product', 'entity_id=product_id', array('*'));
-		$collection->getSelect()->join(
-			array('dsp' => 'wsu_dropshipper_product'),
-			sprintf('e.entity_id = dsp.product_id AND dsp.dshipper_id = %d', $dshipper_id),
-			array('sku', 'price','cost','qty')
-		);
-
-		//echo $collection->getSelect();
-		//die();
+		
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -133,53 +116,13 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
         
         $this->addColumn('sku', array(
             'header' => Mage::helper('wsu_dropshipper')->__('SKU'),
-            'renderer' => 'Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input',
+            //'renderer' => 'Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input',
             'sortable' => true,
-            'width' => '140',
+            //'width' => '140',
             'index' => 'sku'
         ));
-        /*if it's all a simple product then no need for this
-        $this->addColumn('type',
-        array(
-        'header'=> Mage::helper('wsu_dropshipper')->__('Type'),
-        'width' => '60px',
-        'index' => 'type_id',
-        'type'  => 'options',
-        'options' => Mage::getSingleton('catalog/product_type')->getOptionArray()
-        ));*/
-        /*Not really the place for this
-        $this->addColumn('visibility',
-        array(
-        'header'=> Mage::helper('catalog')->__('Visibility'),
-        'width' => '70px',
-        'index' => 'visibility',
-        'type'  => 'options',
-        'options' => Mage::getModel('catalog/product_visibility')->getOptionArray(),
-        ));*/
-        $this->addColumn('price', array(
-            'header' => Mage::helper('wsu_dropshipper')->__('Price'),
-            'type' => 'currency',
-            'width' => '1',
-            'renderer' => 'Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index' => 'price'
-        ));
+
         
-        $this->addColumn('cost', array(
-            'header' => Mage::helper('wsu_dropshipper')->__('Cost'),
-            'type' => 'currency',
-            'width' => '1',
-            'renderer' => 'Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index' => 'cost'
-        ));
-        
-        $this->addColumn('qty', array(
-            'header' => Mage::helper('wsu_dropshipper')->__('STOCK'),
-            'renderer' => 'Wsu_Dropshipper_Block_Adminhtml_Widget_Grid_Column_Renderer_Input',
-            'width' => '1',
-            'index' => 'qty'
-        ));
 		$this->addColumn('action',
             array(
             'header'    =>  Mage::helper('wsu_dropshipper')->__('Action'),
@@ -190,9 +133,9 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
             'getter'    => 'getId',
             'actions'   => array(
 				array(
-					'caption'    => Mage::helper('wsu_dropshipper')->__('Remove'),
+					'caption'    => Mage::helper('wsu_dropshipper')->__('Add to Dropshipper'),
 					'url'       => array(
-						'base'=> '*/*/remove_item',
+						'base'=> '*/*/add_item',
 						'params'=>array('id'=>Mage::registry('dropshipper_data')->getDshipper_id())
 					),
 					'field'     => 'entity_id'
@@ -203,6 +146,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
             'index'     => 'products',
             'is_system' => true,
     	));
+
         return parent::_prepareColumns();
     }
     
@@ -232,7 +176,64 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tab_Product extends Mage_
         }
         return $products;
     }
+ 
+ 
+	    
+    protected function _prepareMassaction() {
+        $this->setMassactionIdField('dshipper_id');
+        $this->getMassactionBlock()->setFormFieldName('dropshipper');
+        
+        $this->getMassactionBlock()->addItem('delete', array(
+            'label' => Mage::helper('wsu_dropshipper')->__('Delete'),
+            'url' => $this->getUrl('*/*/massDelete'),
+            'confirm' => Mage::helper('wsu_dropshipper')->__('Are you sure?')
+        ));
+        
+        $statuses = Mage::getSingleton('wsu_dropshipper/status')->getOptionArray();
+        
+        array_unshift($statuses, array(
+            'label' => '',
+            'value' => ''
+        ));
+        $this->getMassactionBlock()->addItem('status', array(
+            'label' => Mage::helper('wsu_dropshipper')->__('Change status'),
+            'url' => $this->getUrl('*/*/massStatus', array(
+                '_current' => true
+            )),
+            'additional' => array(
+                'visibility' => array(
+                    'name' => 'status',
+                    'type' => 'select',
+                    'class' => 'required-entry',
+                    'label' => Mage::helper('wsu_dropshipper')->__('Status'),
+                    'values' => $statuses
+                )
+            )
+        ));
+        
+        $this->getMassactionBlock()->addItem('update_price', array(
+            'label' => Mage::helper('wsu_dropshipper')->__('Update Price'),
+            'url' => $this->getUrl('*/*/massUpdatePrice', array(
+                '_current' => true
+            )),
+            'additional' => array(
+                'percent_price' => array(
+                    'name' => 'percent',
+                    'type' => 'text',
+                    'class' => 'required-entry',
+                    'label' => Mage::helper('wsu_dropshipper')->__('Percentage')
+                )
+            )
+        ));
+        
+        return $this;
+    }
     
+    public function getRowUrl($row) {
+        return $this->getUrl('*/*/add_item', array(
+            'id' => $row->getId()
+        ));
+    }   
 	
 	
 	

@@ -5,7 +5,7 @@
  * @category    Wsu
  * @package     Wsu_Dropshipper
  */
-class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs {
+class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Allprolist_Tabs extends Mage_Adminhtml_Block_Widget_Tabs {
     
     public function __construct() {
         parent::__construct();
@@ -19,31 +19,16 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tabs extends Mage_Adminht
         parent::_prepareLayout();
     }
     protected function _beforeToHtml() {
-        $this->addTab('form_section', array(
-            'label' => Mage::helper('wsu_dropshipper')->__('General'),
-            'title' => Mage::helper('wsu_dropshipper')->__('General'),
-            'content' => $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_form')->toHtml()
-        ));
-        
         $blocks = $this->getOutputBlock();
         $this->addTab('products', array(
             'label' => Mage::helper('wsu_dropshipper')->__('Products'),
             'content' => $this->_outputBlocks($blocks['usedgridBlock'],$blocks['serializerBlock'])
         ));
-        
-        $this->addTab('shipping', array(
-            'label' => Mage::helper('wsu_dropshipper')->__('Shipping Method'),
-            'title' => Mage::helper('wsu_dropshipper')->__('Shipping Method'),
-            'content' => $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_shipping')->toHtml()
-        ));
-        
-        
-        
         return parent::_beforeToHtml();
     }
     
     protected function _createSerializerBlock($inputName, Mage_Adminhtml_Block_Widget_Grid $gridBlock, $productsArray) {
-        return $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_ajax_serializer')->setGridBlock($gridBlock)->setProducts($productsArray)->setInputElementName($inputName)->setAttributes(array(
+        return $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_allprolist_tab_ajax_serializer')->setGridBlock($gridBlock)->setProducts($productsArray)->setInputElementName($inputName)->setAttributes(array(
             'status'
         ));
     }
@@ -92,7 +77,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit_Tabs extends Mage_Adminht
 		}
 		$collection->addFieldToFilter('entity_id', array( 'in' => $productIds ));
 
-        $usedgridBlock       = $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_edit_tab_product')
+        $usedgridBlock       = $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_allprolist_tab_product')
 			->setGridUrl($this->getUrl('*/*/productGrid', array(
             '_current' => true
         )));

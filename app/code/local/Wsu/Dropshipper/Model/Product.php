@@ -35,11 +35,11 @@ class Wsu_Dropshipper_Model_Product extends Mage_Core_Model_Abstract {
                 $newProductArray[$id][$key] = $_val;
             }
         }
-		var_dump($object);
+		/*var_dump($object);
         print("<hr/><br/><hr/>");
 		var_dump($newProductArray);
 		
-		die();exit();
+		die();exit();*/
         $ProductInstance->saveProductRelations($dropshipper_Id, $newProductArray);
         
         //print_r($newProductArray);die(); 

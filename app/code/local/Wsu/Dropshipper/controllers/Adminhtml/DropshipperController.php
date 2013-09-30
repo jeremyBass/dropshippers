@@ -26,9 +26,19 @@ class Wsu_Dropshipper_Adminhtml_DropshipperController extends Mage_Adminhtml_Con
         $this->_initAction()->renderLayout();
     }
 	
-    public function listAction() {
+    public function allprolistAction() {
         $this->_initDropshipper();
-		$this->renderLayout();
+        $this->loadLayout();
+		$id    = $this->getRequest()->getParam('id');
+        $model = Mage::registry('dropshipper_data');
+        if ($model->getId() || (!isset($id) || $id == 0)) {
+            $this->_addContent(
+					$this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_allprolist')
+				)->_addLeft(
+					 $this->getLayout()->createBlock('wsu_dropshipper/adminhtml_dropshipper_allprolist_tabs')
+				);
+            $this->renderLayout();
+        }
     }
 	
 	

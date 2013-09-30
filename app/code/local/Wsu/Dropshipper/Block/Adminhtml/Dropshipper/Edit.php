@@ -33,13 +33,16 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit extends Mage_Adminhtml_Bl
 			function add_item(){
 				(function($){
 					if($('#dialog-form').length<=0) $('body').append('<div id=\"allProductGrid\">hello</div>');
+					var URL = '".$this->helper('adminhtml')->getUrl('dropshipper/adminhtml_dropshipper/allprolist', array('id' => Mage::registry('dropshipper_data')->getId()) )."';
+					
+					
 					$('#allProductGrid').load(
-					'".$this->helper('adminhtml')->getUrl('adminhtml/wsu_dropshipper/list')." #productGrid',
+					URL+' #dropshipper_products,#productGrid,.xdebug-error',
 					function(){
 						$('#allProductGrid').dialog({
 							autoOpen: true,
 							height: 300,
-							width: 350,
+							width: 600,
 							modal: true,
 							drag:false,
 							buttons: {
