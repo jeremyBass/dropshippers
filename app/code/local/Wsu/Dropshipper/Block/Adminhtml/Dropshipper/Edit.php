@@ -32,7 +32,7 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit extends Mage_Adminhtml_Bl
             }
 			function add_item(){
 				(function($){
-					if($('#dialog-form').length<=0) $('body').append('<div id=\"allProductGrid\">hello</div>');
+					if($('#dialog-form').length<=0) $('body').append('<div id=\"allProductGrid\">hello</div><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"blur\"><feGaussianBlur stdDeviation=\"3\"/></filter></svg>');
 					var URL = '".$this->helper('adminhtml')->getUrl('dropshipper/adminhtml_dropshipper/allprolist', array('id' => Mage::registry('dropshipper_data')->getId()) )."';
 					
 					
@@ -45,6 +45,10 @@ class Wsu_Dropshipper_Block_Adminhtml_Dropshipper_Edit extends Mage_Adminhtml_Bl
 							width: 600,
 							modal: true,
 							drag:false,
+							open:function(){
+								$('.wrapper').attr('style','filter: blur(3px); -webkit-filter: blur(3px); -moz-filter: blur(3px); -o-filter: blur(3px); -ms-filter: blur(3px);filter: url(blur.svg#blur);filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius=\"3\");')
+								
+							},
 							buttons: {
 								'Create an account': function() {
 									$( this ).dialog( 'close' );
